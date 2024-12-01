@@ -1,0 +1,8 @@
+services:
+  github-runner:
+    image: github-runner
+    container_name: <container-name>
+    environment:
+      - GITHUB_URL=https://github.com/<your-org-or-repo>
+      - RUNNER_TOKEN=<your-runner-token>
+    restart: unless-stopped
