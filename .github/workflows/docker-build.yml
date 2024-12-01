@@ -14,10 +14,10 @@ jobs:
       REPO: ${{ github.event.repository.name }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
 
       - name: Set up QEM
-        uses: docker/setup-qemu-action@3
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
