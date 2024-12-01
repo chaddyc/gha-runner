@@ -17,8 +17,6 @@ Before starting, ensure you have the following:
    - Navigate to **Settings > Actions > Runners**.
    - Click **Add Runner** and copy the registration token provided.
 
----
-
 ## Steps to Set Up the GitHub Actions Runner With Docker
 
 You can set up the runner using either `docker run` or `docker-compose`. Choose the method that suits your setup.
