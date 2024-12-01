@@ -57,8 +57,4 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
           - RUNNER_TOKEN=<your-runner-token>
         restart: unless-stopped
 
-## License
-
-[MIT](LICENSE)
-
 
