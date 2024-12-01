@@ -1,6 +1,6 @@
 services:
   github-runner:
-    image: github-runner
+    image: chaddyc/gha-runner:latest
     container_name: <container-name>
     environment:
       - GITHUB_URL=https://github.com/<your-org-or-repo>
