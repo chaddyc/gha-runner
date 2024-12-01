@@ -1,5 +1,6 @@
 ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
+LABEL org.opencontainers.image.authors="https://github.com/chaddyc"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
