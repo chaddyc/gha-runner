@@ -56,5 +56,61 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
           - GITHUB_URL=https://github.com/<your-org-or-repo>
           - RUNNER_TOKEN=<your-runner-token>
         restart: unless-stopped
+   ```
+
+4. **Kubernetes Deployment**
+
+   Create a new kubernetes secret for your Github Actions Runner Token like in the example below:
+
+   ```bash
+   kubectl create secret generic gha-runner-secret \
+     --from-literal=RUNNER_TOKEN=<your-runner-token>
+   ```
+
+   Create a kubernetes deployment `yaml` and call it `gha-runner-deployment.yml` and copy the below yaml file and update where needed such as the `image tag` if using a `specific version` other than `latest`:
+
+   ```yaml
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+   name: gha-runner-deployment
+   labels:
+      app: gha-runner
+   spec:
+   replicas: 1  # Number of runner instances
+   selector:
+      matchLabels:
+         app: gha-runner
+   template:
+      metadata:
+         labels:
+         app: gha-runner
+      spec:
+         containers:
+         - name: gha-runner
+            image: chaddyc/gha-runner:latest  # Replace Docker image tag if not going to use latest
+            imagePullPolicy: IfNotPresent
+            env:
+               - name: GITHUB_URL
+               value:  "https://github.com/<your-org-or-repo>" # Replace with your GitHub URL org or repo
+               - name: RUNNER_TOKEN # pull runner token from secret value created
+               valueFrom:
+                  secretKeyRef:
+                     name: gha-runner-secret  # Kubernetes Secret name
+                     key: RUNNER_TOKEN      # Key in the secret holding the token
+            resources:
+               limits:
+               cpu: "4"
+               memory: "8Gi"
+               requests:
+               cpu: "2"
+               memory: "4Gi"
+   ```
+
+   Run the below command to create your deployment - ensure that you are in the correct `namespace` where you want to deploy your runner:
+   
+   ```bash
+   kubectl apply -f gha-runner-deployment.yml
+   ```
 
 
