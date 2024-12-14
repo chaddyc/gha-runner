@@ -19,7 +19,7 @@ RUN if [ "${TARGETARCH}" = "amd64" ]; then \
 
 
 # Set RUNNER_ARCH as an environment variable for subsequent steps
-ENV RUNNER_ARCH=${RUNNER_ARCH}
+# ENV RUNNER_ARCH=${RUNNER_ARCH}
 
 ENV DEBIAN_FRONTEND=noninteractive
 
