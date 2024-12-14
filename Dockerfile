@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.authors="https://github.com/chaddyc"
 
 # Set build-time architecture (amd64 or arm64)
 ARG TARGETARCH
+RUN echo "Detected architecture: ${TARGETARCH}"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
