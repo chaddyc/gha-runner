@@ -28,23 +28,23 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push ubuntu 22.04 amd64
+      - name: Build and push ubuntu 22.04
         uses: docker/build-push-action@v6
         with:
-          file: amd64.Dockerfile
-          platforms: linux/amd64
+          context: .
+          platforms: linux/amd64, linux/arm64
           build-arg: UBUNTU_VERSION=22.04
           push: true
           tags: chaddyc/${{ github.event.repository.name }}:22.04
 
-      - name: Build and push ubuntu 22.04 arm64
-        uses: docker/build-push-action@v6
-        with:
-          file: arm64.Dockerfile
-          platforms: linux/arm64
-          build-arg: UBUNTU_VERSION=22.04
-          push: true
-          tags: chaddyc/${{ github.event.repository.name }}:22.04
+      # - name: Build and push ubuntu 22.04 arm64
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     file: arm64.Dockerfile
+      #     platforms: linux/arm64
+      #     build-arg: UBUNTU_VERSION=22.04
+      #     push: true
+      #     tags: chaddyc/${{ github.event.repository.name }}:22.04
 
       # - name: Build and push ubuntu 24.04
       #   uses: docker/build-push-action@v6
