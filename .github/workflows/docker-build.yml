@@ -31,7 +31,7 @@ jobs:
       - name: Build and push ubuntu 22.04 amd64
         uses: docker/build-push-action@v6
         with:
-          context: ./amd64.Dockerfile
+          file: amd64.Dockerfile
           platforms: linux/amd64
           build-arg: UBUNTU_VERSION=22.04-amd64
           push: true
@@ -40,7 +40,7 @@ jobs:
       - name: Build and push ubuntu 22.04 arm64
         uses: docker/build-push-action@v6
         with:
-          context: ./arm64.Dockerfile
+          file: arm64.Dockerfile
           platforms: linux/arm64
           build-arg: UBUNTU_VERSION=22.04-arm64
           push: true
