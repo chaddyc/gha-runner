@@ -7,6 +7,19 @@ LABEL org.opencontainers.image.authors="https://github.com/chaddyc"
 ARG TARGETARCH
 RUN echo "Detected architecture: ${TARGETARCH}"
 
+# Map TARGETARCH to the appropriate format for GitHub Actions Runner
+RUN if [ "${TARGETARCH}" = "linux/amd64" ]; then \
+      export RUNNER_ARCH="x64"; \
+    elif [ "${TARGETARCH}" = "linux/arm64" ]; then \
+      export RUNNER_ARCH="arm64"; \
+    else \
+      echo "Unsupported architecture: ${TARGETARCH}"; exit 1; \
+    fi && \
+    echo "Mapped architecture: ${RUNNER_ARCH}"
+
+# Set RUNNER_ARCH as an environment variable for subsequent steps
+ENV RUNNER_ARCH=${RUNNER_ARCH}
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install necessary dependencies
@@ -25,7 +38,8 @@ WORKDIR /runner
 # Download the latest GitHub Actions Runner based on architecture
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
     RUNNER_VERSION_NUMBER=$(echo "$LATEST_RUNNER_VERSION" | sed 's/^v//') && \
-    curl -L -o actions-runner.tar.gz https://github.com/actions/runner/releases/download/$LATEST_RUNNER_VERSION/actions-runner-linux-${TARGETARCH}-$RUNNER_VERSION_NUMBER.tar.gz && \
+    echo "Downloading https://github.com/actions/runner/releases/download/$LATEST_RUNNER_VERSION/actions-runner-linux-${RUNNER_ARCH}-$RUNNER_VERSION_NUMBER.tar.gz" && \
+    curl -L -o actions-runner.tar.gz https://github.com/actions/runner/releases/download/$LATEST_RUNNER_VERSION/actions-runner-linux-${RUNNER_ARCH}-$RUNNER_VERSION_NUMBER.tar.gz && \
     tar xzf actions-runner.tar.gz && \
     rm -f actions-runner.tar.gz
 
