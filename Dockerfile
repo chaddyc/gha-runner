@@ -8,14 +8,15 @@ ARG TARGETARCH
 RUN echo "Detected architecture: ${TARGETARCH}"
 
 # Map TARGETARCH to the appropriate format for GitHub Actions Runner
-RUN if [ "${TARGETARCH}" = "linux/amd64" ]; then \
-      export RUNNER_ARCH="x64"; \
-    elif [ "${TARGETARCH}" = "linux/arm64" ]; then \
-      export RUNNER_ARCH="arm64"; \
+RUN if [ "${TARGETARCH}" = "amd64" ]; then \
+      RUNNER_ARCH="x64"; \
+    elif [ "${TARGETARCH}" = "arm64" ]; then \
+      RUNNER_ARCH="arm64"; \
     else \
       echo "Unsupported architecture: ${TARGETARCH}"; exit 1; \
     fi && \
     echo "Mapped architecture: ${RUNNER_ARCH}"
+
 
 # Set RUNNER_ARCH as an environment variable for subsequent steps
 ENV RUNNER_ARCH=${RUNNER_ARCH}
