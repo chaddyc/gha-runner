@@ -3,7 +3,7 @@ name: Docker Build
 on:
   push:
     branches:
-        - feature/add-arm64-builds
+        - main
 
 jobs:
   docker-build:
