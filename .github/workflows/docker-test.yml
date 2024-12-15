@@ -1,13 +1,13 @@
-name: Docker Build
+name: Docker Test
 
 on:
-  push:
+  pull_request:
     branches:
-        - main
+      - main
+
 
 jobs:
   docker-build:
-    # if: ${{ github.ref == 'refs/heads/main' && contains('["chaddyc"]', github.actor) }}
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ github.token }}
@@ -34,7 +34,7 @@ jobs:
           file: Dockerfile
           platforms: linux/amd64,linux/arm64
           build-arg: UBUNTU_VERSION=22.04
-          push: true
+          push: false
           tags: chaddyc/${{ github.event.repository.name }}:22.04
 
       - name: Build and push ubuntu 24.04
@@ -43,7 +43,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           build-arg: UBUNTU_VERSION=24.04
-          push: true
+          push: false
           tags: chaddyc/${{ github.event.repository.name }}:24.04
 
       - name: Build and push ubuntu latest
@@ -52,7 +52,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           build-arg: UBUNTU_VERSION=latest
-          push: true
+          push: false
           tags: chaddyc/${{ github.event.repository.name }}:latest
 
       - name: Update docker readme description
