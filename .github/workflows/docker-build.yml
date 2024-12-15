@@ -37,32 +37,23 @@ jobs:
           push: true
           tags: chaddyc/${{ github.event.repository.name }}:22.04
 
-      # - name: Build and push ubuntu 22.04 arm64
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     file: arm64.Dockerfile
-      #     platforms: linux/arm64
-      #     build-arg: UBUNTU_VERSION=22.04
-      #     push: true
-      #     tags: chaddyc/${{ github.event.repository.name }}:22.04
+      - name: Build and push ubuntu 24.04
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          build-arg: UBUNTU_VERSION=24.04
+          push: true
+          tags: chaddyc/${{ github.event.repository.name }}:24.04
 
-      # - name: Build and push ubuntu 24.04
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     platforms: linux/amd64,linux/arm64
-      #     build-arg: UBUNTU_VERSION=24.04
-      #     push: true
-      #     tags: chaddyc/${{ github.event.repository.name }}:24.04
-
-      # - name: Build and push ubuntu latest
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     platforms: linux/amd64,linux/arm64
-      #     build-arg: UBUNTU_VERSION=latest
-      #     push: true
-      #     tags: chaddyc/${{ github.event.repository.name }}:latest
+      - name: Build and push ubuntu latest
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          build-arg: UBUNTU_VERSION=latest
+          push: true
+          tags: chaddyc/${{ github.event.repository.name }}:latest
 
       - name: Update docker readme description
         uses: peter-evans/dockerhub-description@v3
