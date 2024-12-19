@@ -26,6 +26,7 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
    docker run -d \
     -e GITHUB_URL=https://github.com/<your-org-or-repo> \
     -e RUNNER_TOKEN=<your-runner-token> \
+    -e RUNNER_NAME=<your-runner-name> \
     --name <container-name> \
     chaddyc/gha-runner:latest
    ```
@@ -39,6 +40,7 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
         environment:
         - GITHUB_URL=https://github.com/<your-org-or-repo>
         - RUNNER_TOKEN=<your-runner-token>
+        - RUNNER_NAME=<your-runner-name>
         restart: unless-stopped
    ```
 
@@ -55,6 +57,7 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
         environment:
           - GITHUB_URL=https://github.com/<your-org-or-repo>
           - RUNNER_TOKEN=<your-runner-token>
+          - RUNNER_NAME=<your-runner-name>
         restart: unless-stopped
    ```
 
@@ -93,6 +96,8 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
             env:
                - name: GITHUB_URL
                value:  "https://github.com/<your-org-or-repo>" # Replace with your GitHub URL org or repo
+               - name: RUNNER_NAME
+               value:  "<your-runner-name>" # Name you want to give your runner
                - name: RUNNER_TOKEN # pull runner token from secret value created
                valueFrom:
                   secretKeyRef:

@@ -9,7 +9,7 @@ fi
 
 # Configure the GitHub Actions runner
 if [ ! -f .runner ]; then
-  ./config.sh --url "${GITHUB_URL}" --token "${RUNNER_TOKEN}" --unattended --replace
+  ./config.sh --url "${GITHUB_URL}" --token "${RUNNER_TOKEN}" --name "${RUNNER_NAME}" --unattended --replace
 fi
 
 RUNNER_NAME=${RUNNER_NAME:-"default-runner"}
