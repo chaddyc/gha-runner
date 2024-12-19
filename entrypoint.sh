@@ -12,8 +12,6 @@ if [ ! -f .runner ]; then
   ./config.sh --url "${GITHUB_URL}" --token "${RUNNER_TOKEN}" --unattended --replace
 fi
 
-RUNNER_NAME=${RUNNER_NAME:-"default-runner"}
-
 # Trap SIGTERM and SIGINT to allow for cleanup
 trap './config.sh remove --unattended && exit 0' SIGTERM SIGINT
 
