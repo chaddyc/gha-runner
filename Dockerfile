@@ -19,6 +19,17 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    gnupg && \
+    install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+    chmod a+r /etc/apt/keyrings/docker.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu ${UBUNTU_VERSION} stable" > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /runner
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
@@ -39,6 +50,8 @@ RUN ./bin/installdependencies.sh
 
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+RUN usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
 
