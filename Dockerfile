@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN curl -fsSL https://get.docker.com -o get-docker.sh \
+    sh get-docker.sh
+
 WORKDIR /runner
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
@@ -39,6 +42,9 @@ RUN ./bin/installdependencies.sh
 
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    
+RUN sudo groupadd docker
+RUN sudo usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
 
