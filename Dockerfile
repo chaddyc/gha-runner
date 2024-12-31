@@ -24,9 +24,6 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh get-docker.sh && \
     rm get-docker.sh
 
-RUN groupadd -g 998 docker && \
-    usermod -aG docker runner
-
 WORKDIR /runner
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
@@ -47,8 +44,9 @@ RUN ./bin/installdependencies.sh
 
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-    
-RUN sudo usermod -aG docker runner
+
+RUN groupadd -g 998 docker && \
+    usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
 
