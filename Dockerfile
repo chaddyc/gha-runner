@@ -64,6 +64,7 @@ RUN ./bin/installdependencies.sh
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+RUN useradd -m -s /bin/bash runner
 RUN usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
@@ -72,6 +73,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 USER runner
-# WORKDIR /runner
+WORKDIR /runner
 
 ENTRYPOINT ["/entrypoint.sh"]

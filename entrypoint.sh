@@ -14,8 +14,6 @@ fi
 
 RUNNER_NAME=${RUNNER_NAME:-"default-runner"}
 
-# sudo service docker start
-
 # Trap SIGTERM and SIGINT to allow for cleanup
 trap './config.sh remove --unattended && exit 0' SIGTERM SIGINT
 
