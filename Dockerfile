@@ -62,9 +62,9 @@ RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/
 RUN ./bin/installdependencies.sh
 
 RUN useradd -m -s /bin/bash runner && \
-    echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    usermod -aG sudo runner
+    # echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN useradd -m -s /bin/bash runner
 RUN usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
