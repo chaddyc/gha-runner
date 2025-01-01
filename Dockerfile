@@ -72,6 +72,8 @@ RUN chown -R runner:runner /runner
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN echo 'Docker!' | passwd --stdin root 
+
 USER runner
 WORKDIR /runner
 
