@@ -14,12 +14,13 @@ RUN apt-get update && apt-get install -y \
     jq \
     git \
     tar \
+    nano \
     sudo \
     software-properties-common && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://get.docker.com/rootless -o get-docker.sh && \
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     chmod +x get-docker.sh && \
     sh get-docker.sh && \
     rm get-docker.sh
@@ -45,8 +46,7 @@ RUN ./bin/installdependencies.sh
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN getent group docker || groupadd -g 999 docker && \
-    usermod -aG docker runner
+RUN usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
 
