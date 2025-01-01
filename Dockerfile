@@ -53,7 +53,7 @@ RUN chown -R runner:runner /runner
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-USER runner
+USER root
 WORKDIR /runner
 
 ENTRYPOINT ["/entrypoint.sh"]
