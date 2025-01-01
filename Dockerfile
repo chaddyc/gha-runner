@@ -41,7 +41,9 @@ RUN echo \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 RUN apt-get update && \
-    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
