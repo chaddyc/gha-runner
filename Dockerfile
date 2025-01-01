@@ -2,6 +2,9 @@ ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
 LABEL org.opencontainers.image.authors="https://github.com/chaddyc"
 
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+RUN mkdir -p /opt/hostedtoolcache
+
 ARG TARGETARCH
 RUN echo "Detected architecture: ${TARGETARCH}"
 
@@ -53,7 +56,7 @@ RUN chown -R runner:runner /runner
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-USER root
+USER runner
 WORKDIR /runner
 
 ENTRYPOINT ["/entrypoint.sh"]
