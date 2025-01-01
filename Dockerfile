@@ -64,7 +64,7 @@ RUN ./bin/installdependencies.sh
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN usermod -aG docker runner
+# RUN usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
 
