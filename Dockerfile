@@ -23,10 +23,10 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-#     chmod +x get-docker.sh && \
-#     sh get-docker.sh && \
-#     rm get-docker.sh
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
+    chmod +x get-docker.sh && \
+    sh get-docker.sh && \
+    rm get-docker.sh
 
 # RUN apt-get install ca-certificates && \
 #     install -m 0755 -d /etc/apt/keyrings && \
@@ -64,7 +64,7 @@ RUN ./bin/installdependencies.sh
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# RUN usermod -aG docker runner
+RUN usermod -aG docker runner
 
 RUN chown -R runner:runner /runner
 
@@ -72,6 +72,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 USER runner
-WORKDIR /runner
+# WORKDIR /runner
 
 ENTRYPOINT ["/entrypoint.sh"]
