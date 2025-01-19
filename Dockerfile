@@ -65,16 +65,19 @@ RUN useradd -m -s /bin/bash runner && \
     usermod -aG sudo runner
     # echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN usermod -aG docker runner
+# RUN usermod -aG docker runner
+
+RUN usermod -aG docker runner && su - runner -c "newgrp docker"
 
 RUN chown -R runner:runner /runner
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# RUN echo 'root:Docker!' | chpasswd
+RUN echo 'root:Docker!' | chpasswd
 
 USER runner
 WORKDIR /runner
 
+SHELL ["/bin/bash", "-c"]
 ENTRYPOINT ["/entrypoint.sh"]
