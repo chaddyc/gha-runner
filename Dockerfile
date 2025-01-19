@@ -29,22 +29,6 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     rm get-docker.sh
 
 RUN sudo chown root:docker /var/run/docker.sock || true
-
-# RUN apt-get install ca-certificates && \
-#     install -m 0755 -d /etc/apt/keyrings && \
-#     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
-#     chmod a+r /etc/apt/keyrings/docker.asc
-
-# RUN echo \
-#     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-#     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-#     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# RUN apt-get update && \
-#     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
-#     apt-get clean && \
-#     rm -rf /var/lib/apt/lists/*
-
 WORKDIR /runner
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
@@ -64,19 +48,13 @@ RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/
 RUN ./bin/installdependencies.sh
 
 RUN useradd -m -s /bin/bash runner && \
-    # usermod -aG sudo runner \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# RUN usermod -aG docker runner
-
 RUN usermod -aG docker runner && su - runner -c "newgrp docker"
-
 RUN chown -R runner:runner /runner
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-# RUN echo 'root:Docker!' | chpasswd
 
 USER runner
 WORKDIR /runner
