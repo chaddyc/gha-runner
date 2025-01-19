@@ -62,17 +62,16 @@ RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/
 RUN ./bin/installdependencies.sh
 
 RUN useradd -m -s /bin/bash runner && \
-    usermod -aG sudo runner
-    # echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    usermod -aG sudo runner && \
+    usermod -aG docker runner && \
+    echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN usermod -aG docker runner
-
-RUN chown -R runner:runner /runner
+# Ensure group membership takes effect
+SHELL ["/bin/bash", "-c"]
+RUN su - runner -c "newgrp docker"
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-RUN echo 'root:Docker!' | chpasswd
 
 USER runner
 WORKDIR /runner
