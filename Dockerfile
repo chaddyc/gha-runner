@@ -28,6 +28,8 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh get-docker.sh && \
     rm get-docker.sh
 
+RUN sudo chown root:docker /var/run/docker.sock || true
+
 # RUN apt-get install ca-certificates && \
 #     install -m 0755 -d /etc/apt/keyrings && \
 #     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
@@ -74,7 +76,7 @@ RUN chown -R runner:runner /runner
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN echo 'root:Docker!' | chpasswd
+# RUN echo 'root:Docker!' | chpasswd
 
 USER runner
 WORKDIR /runner
