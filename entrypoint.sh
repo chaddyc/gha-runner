@@ -7,12 +7,15 @@ if [ -z "$GITHUB_URL" ] || [ -z "$RUNNER_TOKEN" ]; then
   exit 1
 fi
 
+# Set default runner name and labels if not provided
+RUNNER_NAME=${RUNNER_NAME:-"default-runner"}
+RUNNER_LABELS=${RUNNER_LABELS:-"self-hosted,default"}
+
 # Configure the GitHub Actions runner
 if [ ! -f .runner ]; then
-  ./config.sh --url "${GITHUB_URL}" --token "${RUNNER_TOKEN}" --name "${RUNNER_NAME}" --unattended --replace
+  echo "Configuring runner with name: $RUNNER_NAME and labels: $RUNNER_LABELS"
+  ./config.sh --url "${GITHUB_URL}" --token "${RUNNER_TOKEN}" --name "${RUNNER_NAME}" --labels "${RUNNER_LABELS}" --unattended --replace
 fi
-
-RUNNER_NAME=${RUNNER_NAME:-"default-runner"}
 
 # Trap SIGTERM and SIGINT to allow for cleanup
 trap './config.sh remove --unattended && exit 0' SIGTERM SIGINT

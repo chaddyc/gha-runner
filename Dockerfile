@@ -2,6 +2,9 @@ ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
 LABEL org.opencontainers.image.authors="https://github.com/chaddyc"
 
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+RUN mkdir -p /opt/hostedtoolcache
+
 ARG TARGETARCH
 RUN echo "Detected architecture: ${TARGETARCH}"
 
@@ -14,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     jq \
     git \
     tar \
+    nano \
     sudo \
     software-properties-common && \
     apt-get clean && \
@@ -24,6 +28,7 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh get-docker.sh && \
     rm get-docker.sh
 
+RUN sudo chown root:docker /var/run/docker.sock || true
 WORKDIR /runner
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
@@ -45,9 +50,7 @@ RUN ./bin/installdependencies.sh
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN getent group docker || groupadd -g 998 docker && \
-    usermod -aG docker runner
-
+RUN usermod -aG docker runner && su - runner -c "newgrp docker"
 RUN chown -R runner:runner /runner
 
 COPY entrypoint.sh /entrypoint.sh
@@ -56,4 +59,5 @@ RUN chmod +x /entrypoint.sh
 USER runner
 WORKDIR /runner
 
+SHELL ["/bin/bash", "-c"]
 ENTRYPOINT ["/entrypoint.sh"]
