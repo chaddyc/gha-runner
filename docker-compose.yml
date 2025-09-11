@@ -6,6 +6,17 @@ services:
       - GITHUB_URL=https://github.com/<your-org-or-repo>
       - RUNNER_TOKEN=<your-runner-token>
       - RUNNER_NAME=<your-runner-name>
+      - RUNNER_LABEL=<label1,label2>
     volumes:
        - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+    # set runner resource limits [optional]
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: "4G"
+        reservations:
+          cpus: "0.5"
+          memory: "1024"
+    
