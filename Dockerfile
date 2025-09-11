@@ -61,7 +61,8 @@ RUN ./bin/installdependencies.sh
 RUN useradd -m -s /bin/bash runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN usermod -aG docker runner && su - runner -c "newgrp docker"
+RUN groupadd -f docker && usermod -aG docker runner
+# RUN usermod -aG docker runner && su - runner -c "newgrp docker"
 RUN chown -R runner:runner /runner
 
 COPY entrypoint.sh /entrypoint.sh
