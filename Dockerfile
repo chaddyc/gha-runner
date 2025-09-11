@@ -19,9 +19,10 @@ RUN apt-get update && apt-get install -y \
     tar \
     nano \
     sudo \
-    software-properties-common
-
-RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+    software-properties-common \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io
 
 # RUN apt-get update && apt-get install -y \
 #     ca-certificates curl gnupg lsb-release && \
