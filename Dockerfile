@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     docker-ce \
     docker-ce-cli \
-    containerd.io
+    containerd.io \
 
 # RUN apt-get update && apt-get install -y \
 #     ca-certificates curl gnupg lsb-release && \
