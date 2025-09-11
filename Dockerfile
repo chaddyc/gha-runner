@@ -13,25 +13,24 @@ ENV RUNNER_ARCH=${RUNNER_ARCH}
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
-    curl \
-    jq \
-    git \
-    tar \
-    nano \
-    sudo \
-    software-properties-common \
-    docker-ce \
-    docker-ce-cli \
-    containerd.io \
+    curl jq git tar nano sudo software-properties-common \
+    ca-certificates gnupg lsb-release && \
+    mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && \
+    apt-get install -y docker-ce-cli && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # RUN apt-get update && apt-get install -y \
-#     ca-certificates curl gnupg lsb-release && \
-#     mkdir -p /etc/apt/keyrings && \
-#     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-#     $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list && \
-#     apt-get update && \
-#     apt-get install -y docker-ce-cli && \
+#     curl \
+#     jq \
+#     git \
+#     tar \
+#     nano \
+#     sudo \
+#     software-properties-common && \
 #     apt-get clean && \
 #     rm -rf /var/lib/apt/lists/*
 
