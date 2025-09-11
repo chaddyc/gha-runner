@@ -41,9 +41,21 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
         - GITHUB_URL=https://github.com/<your-org-or-repo>
         - RUNNER_TOKEN=<your-runner-token>
         - RUNNER_NAME=<your-runner-name>
+        - RUNNER_LABEL=<label1,label2>
         volumes:
          - /var/run/docker.sock:/var/run/docker.sock
         restart: unless-stopped
+        # set runner resource limits [optional]
+        deploy:
+         resources:
+            limits:
+               cpus: "2.0"
+               memory: "4G"
+            reservations:
+               cpus: "0.5"
+               memory: "1024"
+      
+        
    ```
 
 3. **Docker Compose - Multi Containers**
@@ -60,9 +72,19 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
           - GITHUB_URL=https://github.com/<your-org-or-repo>
           - RUNNER_TOKEN=<your-runner-token>
           - RUNNER_NAME=<your-runner-name>
+          - RUNNER_LABEL=<label1,label2>
         volumes:
          - /var/run/docker.sock:/var/run/docker.sock
         restart: unless-stopped
+        # set runner resource limits [optional]
+        deploy:
+         resources:
+            limits:
+               cpus: "2.0"
+               memory: "4G"
+            reservations:
+               cpus: "0.5"
+               memory: "1024"
    ```
 
 4. **Kubernetes Deployment**
