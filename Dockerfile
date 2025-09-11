@@ -19,14 +19,17 @@ RUN apt-get update && apt-get install -y \
     tar \
     nano \
     sudo \
-    software-properties-common && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    software-properties-common
+    # apt-get clean && \
+    # rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     chmod +x get-docker.sh && \
     sh get-docker.sh && \
-    rm get-docker.sh
+    rm get-docker.sh \
+    apt-get clean && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN sudo chown root:docker /var/run/docker.sock || true
 WORKDIR /runner
