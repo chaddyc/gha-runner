@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [ -e /var/run/docker.sock ]; then
+  sudo chown root:docker /var/run/docker.sock
+  sudo chmod 660 /var/run/docker.sock
+fi
+
 # Ensure the required environment variables are set
 if [ -z "$GITHUB_URL" ] || [ -z "$RUNNER_TOKEN" ]; then
   echo "Error: GITHUB_URL and RUNNER_TOKEN environment variables must be set."

@@ -41,7 +41,7 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
         - GITHUB_URL=https://github.com/<your-org-or-repo>
         - RUNNER_TOKEN=<your-runner-token>
         - RUNNER_NAME=<your-runner-name>
-        - RUNNER_LABEL=<label1,label2>
+        - RUNNER_LABELS=<label1,label2>
         volumes:
          - /var/run/docker.sock:/var/run/docker.sock
         restart: unless-stopped
@@ -72,7 +72,7 @@ You can set up the runner using either `docker run` or `docker-compose`. Choose 
           - GITHUB_URL=https://github.com/<your-org-or-repo>
           - RUNNER_TOKEN=<your-runner-token>
           - RUNNER_NAME=<your-runner-name>
-          - RUNNER_LABEL=<label1,label2>
+          - RUNNER_LABELS=<label1,label2>
         volumes:
          - /var/run/docker.sock:/var/run/docker.sock
         restart: unless-stopped
