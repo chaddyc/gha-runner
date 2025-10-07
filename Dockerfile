@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y \
 #     sh get-docker.sh && \
 #     rm get-docker.sh
 
-RUN sudo chown root:docker /var/run/docker.sock || true
+# RUN sudo chown root:docker /var/run/docker.sock || true
 WORKDIR /runner
 
 RUN LATEST_RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name) && \
@@ -64,6 +64,8 @@ RUN useradd -m -s /bin/bash runner && \
 RUN groupadd -f docker && usermod -aG docker runner
 # RUN usermod -aG docker runner && su - runner -c "newgrp docker"
 RUN chown -R runner:runner /runner
+RUN chown -R runner:runner /opt/hostedtoolcache && \
+    chmod -R 755 /opt/hostedtoolcache
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
