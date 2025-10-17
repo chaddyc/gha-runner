@@ -1,10 +1,28 @@
 #!/bin/bash
 set -e
 
+# Clean up any existing SSH agents and sockets on startup
+cleanup_existing_ssh() {
+    echo "Cleaning up existing SSH agents and sockets..."
+    
+    # Kill any existing SSH agents
+    pkill -f ssh-agent || true
+    
+    # Remove any existing SSH socket files
+    find /tmp -name "ssh*" -type s -delete 2>/dev/null || true
+    find /tmp -name "agent.*" -type s -delete 2>/dev/null || true
+    
+    echo "SSH cleanup completed"
+}
+
+# Handle Docker socket permissions
 if [ -e /var/run/docker.sock ]; then
   sudo chown root:docker /var/run/docker.sock
   sudo chmod 660 /var/run/docker.sock
 fi
+
+# Clean up existing SSH resources
+cleanup_existing_ssh
 
 # Ensure the required environment variables are set
 if [ -z "$GITHUB_URL" ] || [ -z "$RUNNER_TOKEN" ]; then
